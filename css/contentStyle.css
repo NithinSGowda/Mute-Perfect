@@ -1,0 +1,25 @@
+.micRibbon{
+    background-color: #e82;
+    padding: 5px;
+    color: white;
+    text-align: center;
+    position: fixed;
+    bottom: 60px;
+    right: -60px;
+    transform: rotate(-45deg);
+    min-width: 300px;
+    z-index: 999999;
+}
+
+.camRibbon{
+    background-color: #2c7;
+    padding: 5px;
+    color: white;
+    text-align: center;
+    position: fixed;
+    bottom: 40px;
+    right: -40px;
+    transform: rotate(-45deg);
+    min-width: 200px;
+    z-index: 999999;
+}
