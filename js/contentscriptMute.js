@@ -1,4 +1,4 @@
-var camera,mic;
+var camera,mic,lobby=true;
 if(window.location.href.includes('meet.google')){
     var checkexistcall=setInterval(() => {
         if(document.querySelector('[data-tooltip*="camera" i]') && document.querySelector('[data-tooltip*="microphone" i]')){
@@ -15,6 +15,30 @@ if(window.location.href.includes('meet.google')){
                     camera = document.querySelector('[data-tooltip*="camera" i]')
                     mic = document.querySelector('[data-tooltip*="microphone" i]')
                     clearInterval(checkexistcall)
+                    lobby=false;
+                    main();
+                }
+            }, 500);
+            clearInterval(checkExistLoadState);
+        }
+    }, 500);
+}else if(window.location.href.includes('teams.microsoft')){
+    var checkexistcall=setInterval(() => {
+        if(document.querySelector('[track-summary*="Toggle camera" i]') && document.querySelector('[track-summary*="Toggle microphone" i]')){
+            camera = document.querySelector('[track-summary*="Toggle camera" i]')
+            mic = document.querySelector('[track-summary*="Toggle microphone" i]')
+            clearInterval(checkexistcall)
+            main();
+        }
+    }, 500);
+    var checkExistLoadState= setInterval(function() {
+        if(document.querySelector('#hangup-button')){
+            var checkexistcall=setInterval(() => {
+                if(document.querySelector('#microphone-button') && document.querySelector('#video-button')){
+                    camera = document.querySelector('#video-button')
+                    mic = document.querySelector('#microphone-button')
+                    clearInterval(checkexistcall)
+                    lobby=false;
                     main();
                 }
             }, 500);
@@ -48,7 +72,6 @@ function camStateChange(camState){
     if(window.location.href.includes('meet.google')){
         if(!camState){
             setBannerCam()
-            console.log("Added ribbon");
             if(document.querySelector('[data-tooltip*="off camera" i]'))
                 document.querySelector('[data-tooltip*="off camera" i]').click()
         }else{
@@ -57,6 +80,28 @@ function camStateChange(camState){
         }
         camera.style.display = camState ? "flex" : "none"
         console.log(camera.style.display, 'set');
+    }else if(window.location.href.includes('teams.microsoft')){
+        if(lobby){
+            if(!camState){
+                setBannerCam()
+                if(document.querySelector('[track-summary*="Toggle camera off" i]'))
+                    document.querySelector('[track-summary*="Toggle camera off" i]').click()
+            }else{
+                if(document.querySelector('.camRibbon'))
+                    document.querySelector('.camRibbon').remove()
+            }
+            camera.style.display = camState ? "flex" : "none"
+        }else{
+            if(!camState){
+                setBannerCam()
+                if(document.querySelector('[aria-label*="Turn camera off" i]'))
+                    document.querySelector('[aria-label*="Turn camera off" i]').click()
+            }else{
+                if(document.querySelector('.camRibbon'))
+                    document.querySelector('.camRibbon').remove()
+            }
+            camera.style.display = camState ? "flex" : "none"
+        }
     }
 }
 function micStateChange(micState){
@@ -71,10 +116,37 @@ function micStateChange(micState){
         }
         mic.style.display = micState ? "flex" : "none"
         console.log(mic.style.display, 'set');
+    }else if(window.location.href.includes('teams.microsoft')){
+        if(lobby){
+            if(!micState){
+                setBannerMic()
+                if(document.querySelector('[track-summary*="Toggle microphone off" i]'))
+                    document.querySelector('[track-summary*="Toggle microphone off" i]').click()
+            }else{
+                if(document.querySelector('.micRibbon'))
+                    document.querySelector('.micRibbon').remove()
+            }
+            mic.style.display = micState ? "flex" : "none"
+        }else{
+            if(!micState){
+                setBannerMic()
+                if(document.querySelector('[aria-label="Mute" i]'))
+                    document.querySelector('[aria-label="Mute" i]').click()
+            }else{
+                if(document.querySelector('.micRibbon'))
+                    document.querySelector('.micRibbon').remove()
+            }
+            mic.style.display = micState ? "flex" : "none"
+        }
     }
 }
 
 function setBannerCam(){
+    if(document.querySelectorAll('.camRibbon').length>0){
+        for(ele of document.querySelectorAll('.camRibbon')){
+            ele.remove()
+        }
+    }
     htmlContentCam = `<div class="camRibbon">Camera Off</div>`
     camRibbon = document.createElement('div')
     camRibbon.innerHTML=htmlContentCam
@@ -84,6 +156,11 @@ function setBannerCam(){
     document.body.append(camRibbon)
 }
 function setBannerMic(){
+    if(document.querySelectorAll('.micRibbon').length>0){
+        for(ele of document.querySelectorAll('.micRibbon')){
+            ele.remove()
+        }
+    }
     htmlContentMic = `<div class="micRibbon">Microphone Off</div>`
     micRibbon = document.createElement('div')
     micRibbon.innerHTML=htmlContentMic

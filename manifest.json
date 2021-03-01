@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Mute Perfect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "By Nithin S",
   "icons": {
     "128": "icons/icon.png"

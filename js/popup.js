@@ -3,13 +3,25 @@ var mic = document.querySelector('.mic')
 
 chrome.storage.sync.get(['camState'], function(result) {
     result=result["camState"]
-    camera.checked=result.cam
-    console.log(result.cam);
+    if(result){
+        camera.checked=result.cam
+        console.log(result);
+    }else{
+        setStorageStateCam({
+            cam: false
+        })
+    }
 })
 chrome.storage.sync.get(['micState'], function(result) {
     result=result["micState"]
-    mic.checked=result.mic
-    console.log(result.mic);
+    if(result){
+        mic.checked=result.mic
+        console.log(result);
+    }else{
+        setStorageStateMic({
+            mic: false
+        })
+    }
 })
 
 camera.addEventListener('change',()=>{
