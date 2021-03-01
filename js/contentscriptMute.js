@@ -205,3 +205,14 @@ function setBannerMic(){
     document.body.append(micRibbon)
 }
 
+document.body.addEventListener('keydown', event => {
+    if (event.ctrlKey && 'de'.indexOf(event.key) !== -1) {
+      event.preventDefault()
+      event.stopPropagation()
+      if(document.querySelector('[data-tooltip*="off microphone" i]'))
+        document.querySelector('[data-tooltip*="off microphone" i]').click()
+      if(document.querySelector('[data-tooltip*="off camera" i]'))
+        document.querySelector('[data-tooltip*="off camera" i]').click()
+    }
+})
+
