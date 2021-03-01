@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
   "name": "Mute Perfect",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "By Nithin S",
   "icons": {
     "128": "icons/icon.png"
   },
   "browser_action": {
     "default_icon":"icons/icon.png",
-    "default_title": "MutePerfect",
+    "default_title": "Mute Perfect",
     "default_popup": "html/popup.html"
   },
   "content_scripts": [{

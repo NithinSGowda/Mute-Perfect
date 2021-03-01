@@ -45,6 +45,21 @@ if(window.location.href.includes('meet.google')){
             clearInterval(checkExistLoadState);
         }
     }, 500);
+}else if(window.location.href.includes('zoom.us')){
+    var checkExistLoadState= setInterval(function() {
+        if(document.querySelector('.footer__leave-btn-container')){
+            var checkexistcall=setInterval(() => {
+                if(document.querySelector('[aria-label*="my microphone" i]') && document.querySelector('[aria-label*="sending my video" i]')){
+                    camera = document.querySelector('[aria-label*="sending my video" i]')
+                    mic = document.querySelector('[aria-label*="my microphone" i]')
+                    clearInterval(checkexistcall)
+                    lobby=false;
+                    main();
+                }
+            }, 500);
+            clearInterval(checkExistLoadState);
+        }
+    }, 500);
 }
 
 function main(){
@@ -102,6 +117,16 @@ function camStateChange(camState){
             }
             camera.style.display = camState ? "flex" : "none"
         }
+    }else if(window.location.href.includes('zoom.us')){
+        if(!camState){
+            setBannerCam()
+            if(document.querySelector('[aria-label*="stop sending my video" i]'))
+                document.querySelector('[aria-label*="stop sending my video" i]').click()
+        }else{
+            if(document.querySelector('.camRibbon'))
+                document.querySelector('.camRibbon').remove()
+        }
+        camera.style.display = camState ? "flex" : "none"
     }
 }
 function micStateChange(micState){
@@ -138,6 +163,16 @@ function micStateChange(micState){
             }
             mic.style.display = micState ? "flex" : "none"
         }
+    }else if(window.location.href.includes('zoom.us')){
+        if(!micState){
+            setBannerMic()
+            if(document.querySelector('[aria-label="mute my microphone" i]'))
+                document.querySelector('[aria-label="mute my microphone" i]').click()
+        }else{
+            if(document.querySelector('.micRibbon'))
+                document.querySelector('.micRibbon').remove()
+        }
+        mic.style.display = micState ? "flex" : "none"
     }
 }
 
