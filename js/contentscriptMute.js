@@ -1,10 +1,23 @@
 var camera,mic;
 if(window.location.href.includes('meet.google')){
-    var checkExistLoadState= setInterval(function() {
-        if(document.querySelector('[data-tooltip*="leave call" i]')){
+    var checkexistcall=setInterval(() => {
+        if(document.querySelector('[data-tooltip*="camera" i]') && document.querySelector('[data-tooltip*="microphone" i]')){
             camera = document.querySelector('[data-tooltip*="camera" i]')
             mic = document.querySelector('[data-tooltip*="microphone" i]')
+            clearInterval(checkexistcall)
             main();
+        }
+    }, 500);
+    var checkExistLoadState= setInterval(function() {
+        if(document.querySelector('[data-tooltip*="leave call" i]')){
+            var checkexistcall=setInterval(() => {
+                if(document.querySelector('[data-tooltip*="camera" i]') && document.querySelector('[data-tooltip*="microphone" i]')){
+                    camera = document.querySelector('[data-tooltip*="camera" i]')
+                    mic = document.querySelector('[data-tooltip*="microphone" i]')
+                    clearInterval(checkexistcall)
+                    main();
+                }
+            }, 500);
             clearInterval(checkExistLoadState);
         }
     }, 500);
@@ -65,11 +78,18 @@ function setBannerCam(){
     htmlContentCam = `<div class="camRibbon">Camera Off</div>`
     camRibbon = document.createElement('div')
     camRibbon.innerHTML=htmlContentCam
+    camRibbon.ondblclick = ()=>{
+        document.querySelector('.camRibbon').remove()
+    }
     document.body.append(camRibbon)
 }
 function setBannerMic(){
     htmlContentMic = `<div class="micRibbon">Microphone Off</div>`
     micRibbon = document.createElement('div')
     micRibbon.innerHTML=htmlContentMic
+    micRibbon.ondblclick = ()=>{
+        document.querySelector('.micRibbon').remove()
+    }
     document.body.append(micRibbon)
 }
+
